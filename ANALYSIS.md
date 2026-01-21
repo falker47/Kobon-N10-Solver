@@ -45,4 +45,5 @@ While the search for 26 triangles continues, this research suggests that **stoch
 
 ### Most Symmetric Candidate
 ![Variant 49](images/most_symmetric_variant_49.png)
+
 *The highest natural symmetry candidate identified during analysis.*

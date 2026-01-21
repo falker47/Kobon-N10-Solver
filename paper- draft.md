@@ -2,7 +2,7 @@
 
 **Author:** Maurizio Falconi  
 **Date:** January 2026  
-**Repository:** [GitHub Link]
+**Repository:** [GitHub Link](https://github.com/falker47/Kobon-N10-Solver)
 
 ---
 
@@ -38,6 +38,9 @@ This paper provides a **computational verification** of the $N=10$ landscape usi
 1. **Algorithmic Framework:** A hybrid Simulated Annealing + Basin Hopping pipeline optimized for line arrangements.
 2. **Solution Diversity:** Identification of 52 geometrically distinct families achieving 25 triangles, proving the optimum is not unique.
 3. **Barrier Analysis:** Empirical evidence that the 25-triangle basin is topologically isolated, explaining why incremental search methods fail to find 26.
+
+![Mosaic of discovered 25-triangle configurations](images/kobon_mosaic.jpg)
+*Figure 1: A mosaic showing the variety of 25-triangle configurations discovered by our stochastic search algorithm.*
 
 ---
 
@@ -184,6 +187,9 @@ To characterize the **local stability** of optimal configurations, we designed a
 
 The score function $N_{\triangle}(k)$ exhibits a **Dirac-like peak** centered at $k = 1.0$:
 
+![Breather Scan Results](images/breather_scan.png)
+*Figure 2: Triangle count as a function of inner core scaling factor k. The optimal configuration exists only in an extremely narrow parameter window.*
+
 | Scale Factor $k$ | Triangle Count |
 |------------------|----------------|
 | 0.98 | 19 |
@@ -216,7 +222,13 @@ We identified Variant #49 as the most naturally symmetric configuration (lowest 
 2. Generating the remaining 5 lines as exact reflections: $(a, b, c) \mapsto (-a, b, c)$.
 3. Optimizing only the 5 master lines (10 degrees of freedom instead of 30).
 
+![Most Symmetric Variant #49](images/most_symmetric_variant_49.png)
+*Figure 3: Variant #49 — the most naturally symmetric 25-triangle configuration before forcing exact symmetry.*
+
 **Result:** The maximum achievable score under hard symmetry was **18 triangles**—a catastrophic drop from 25.
+
+![Hard Symmetry Result](images/highlight_symmetric_18.png)
+*Figure 4: The best achievable configuration under forced perfect symmetry, yielding only 18 triangles.*
 
 **Experiment 2: Soft Symmetry (Lagrangian Penalty).**
 We introduced a penalty term into the energy function:
@@ -226,6 +238,9 @@ $$E_{\text{soft}}(\mathbf{S}) = -N_{\triangle}(\mathbf{S}) + \lambda \cdot \sum_
 where $\pi$ is the pairing function and $\lambda = 10$ (small relative to the triangle weight of 1000).
 
 **Result:** The optimizer recovered Score = 25 and reduced symmetry error, but could not break through to 26.
+
+![Soft Symmetry Result](images/highlight_soft_symmetry.png)
+*Figure 5: Configuration optimized with soft symmetry penalty — achieves 25 triangles with reduced but non-zero asymmetry.*
 
 **Interpretation: The Micro-Asymmetry Hypothesis.**
 The 25-triangle configurations appear to rely on **microscopic asymmetries**—small deviations from perfect symmetry—to "close" certain triangles. Perfect symmetry imposes geometric constraints that are mutually exclusive with the intersection topology required for 25 (or 26) triangles. The optimal solutions are *near-symmetric* but not *exactly* symmetric.
