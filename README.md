@@ -5,7 +5,7 @@
 ![Record](https://img.shields.io/badge/Best%20Score-25%20Triangles-green)
 
 A high-performance algorithmic framework devised to solve the **Kobon Triangle Problem** for N=10 lines.
-This project successfully replicated the **World Record (25 Triangles)** using consumer hardware through advanced optimization techniques, identifying **52 distinct geometric families** of solutions.
+This project successfully replicated the **World Record (25 Triangles)** using consumer hardware through advanced optimization techniques, identifying **11 distinct intersection graphs** across **72 optimal configurations**.
 
 ![Kobon Mosaic](images/kobon_mosaic.jpg)
 *A mosaic of unique geometric configurations found, all achieving the record score of 25.*
@@ -37,7 +37,7 @@ Stress-test a solution by scaling internal geometry to find phase transitions:
 
 ## 📊 Key Results
 - **Optimization:** Reached global maximum (25) in < 15 minutes.
-- **Diversity:** Mapped **52 geometrically unique** solutions.
+- **Diversity:** Mapped **11 distinct intersection graphs** across **72 optimal** configurations.
 - **Stability:** Proved that the 25-triangle configuration is a "Deep Well" local minimum.
 
 See [ANALYSIS.md](ANALYSIS.md) for the full scientific report.

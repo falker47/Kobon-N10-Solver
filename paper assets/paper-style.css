@@ -1,0 +1,440 @@
+/* ============================================================
+   Academic Paper Stylesheet - Standard Layout
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-body: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+  --font-heading: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-code: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  --color-text: #1d1d1d;
+  /* Dark Blue-Gray */
+  --color-heading: #002345;
+  /* Deep Dark Blue */
+  --color-accent: #1b3889;
+  /* Darker, more professional Navy Blue */
+  --color-accent-light: #1461dc;
+  --color-caption: #3b4657;
+  --color-border: #cbd5e1;
+  --color-bg-code: #f8fafc;
+  --color-table-stripe: #f1f5f9;
+}
+
+/* ============================================================
+   Page Setup - Standard Academic
+   ============================================================ */
+@page {
+  size: A4;
+  margin: 2.5cm;
+  /* Standard academic margins */
+}
+
+/* TOC Styles */
+.toc-container {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.toc-container h2 {
+  margin-top: 0;
+  border-bottom: none;
+  font-size: 1.25rem;
+  color: var(--color-heading);
+  margin-bottom: 0.5rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.toc-list li {
+  margin-bottom: 0.1rem;
+}
+
+.toc-list a {
+  text-decoration: none;
+  color: var(--color-text);
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted #cbd5e1;
+  padding-bottom: 1px;
+}
+
+.toc-list a:hover {
+  color: var(--color-accent);
+}
+
+.toc-sublist {
+  list-style: none;
+  padding-left: 1.2rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.toc-sublist li {
+  font-size: 0.85rem;
+}
+
+/* Abstract Section */
+.abstract-section {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-border);
+}
+
+.abstract-section p {
+  margin-bottom: 0.8rem;
+}
+
+/* Adjust margins for printing to avoid double margining if browser adds its own */
+@page {
+  /* Some browsers might need this to be explicit */
+}
+
+html {
+  font-size: 12pt;
+  /* Readable standard size */
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  margin: 0;
+  /* Reset body margin, let @page handle it */
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  /* Relaxed reading line height */
+  color: var(--color-text);
+  text-rendering: optimizeLegibility;
+  text-align: left;
+  /* Improvements for justified text */
+  hyphens: auto;
+}
+
+/* ============================================================
+   Header / Cover Page
+   ============================================================ */
+#title-block-header {
+  display: none !important;
+}
+
+/* The cover page must be standalone */
+.cover-page {
+  /* Ensure it fills the page area defined by @page margins */
+  min-height: 90vh;
+  /* Fill the visual page */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  page-break-after: always;
+  /* Force new page after cover */
+
+  /* Reset margins for styling inside the writable area */
+  margin: 0;
+  padding: 2rem 0;
+  border-bottom: none;
+}
+
+.cover-page h1 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  /* Slightly larger */
+  font-weight: 800;
+  color: var(--color-heading);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.cover-page .subtitle {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.cover-page .cover-image-container {
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.cover-page img.cover-image {
+  border-radius: 0;
+  box-shadow: none;
+  max-height: 370px;
+  object-fit: cover;
+  width: auto;
+  max-width: 100%;
+}
+
+.cover-page .decorative-line {
+  width: 80px;
+  height: 4px;
+  background: var(--color-accent);
+  margin: 2rem auto;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+.cover-page .author-info {
+  font-family: var(--font-heading);
+  margin-bottom: 2rem;
+  margin-top: auto;
+  /* Push to bottom if space permits */
+}
+
+.cover-page .author-name {
+  display: block;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-heading);
+}
+
+.cover-page .date {
+  color: var(--color-caption);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.repo-link {
+  display: inline-block;
+  margin-top: 1rem;
+  background: transparent;
+  color: var(--color-accent);
+  font-family: var(--font-heading);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+
+
+/* ============================================================
+   Typography & Sections
+   ============================================================ */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  color: var(--color-heading);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Chapters (H2) start on new page */
+h2 {
+  font-size: 1.7rem;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+  /* Reset top margin since it's a new page */
+  page-break-before: always;
+  font-weight: 700;
+}
+
+/* Allow References to follow Conclusion on the same page */
+#references {
+  page-break-before: auto;
+  padding-top: 0;
+  margin-top: 2rem;
+  border-top: none;
+}
+
+h3 {
+  font-size: 1.3rem;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-top: 1.8rem;
+  page-break-after: avoid;
+  /* Keep with text */
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-top: 1.2rem;
+  page-break-after: avoid;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.95rem;
+}
+
+p {
+  margin-bottom: 1.8rem;
+  orphans: 3;
+  widows: 3;
+}
+
+/* Abstract Styling */
+#abstract {
+  margin: 3rem 0;
+  padding: 1.5rem 2rem;
+  background-color: #f8fbff;
+  border-left: 4px solid var(--color-accent);
+  border-radius: 0 4px 4px 0;
+  page-break-inside: avoid;
+  font-style: italic;
+  color: #334155;
+}
+
+/* Lists */
+ul,
+ol {
+  margin: 0.5rem 0 1.2rem 0;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+/* Math, Code, Tables */
+pre,
+div.sourceCode {
+  background: var(--color-bg-code);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  overflow-x: auto;
+  page-break-inside: avoid;
+}
+
+div.sourceCode pre {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+code {
+  font-family: var(--font-code);
+  background: var(--color-bg-code);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85em;
+  color: #c026d3;
+  /* Subtle syntax color for inline code */
+}
+
+pre code {
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+  page-break-inside: avoid;
+  border-bottom: 2px solid var(--color-border);
+}
+
+th {
+  text-align: left;
+  border-bottom: 2px solid var(--color-heading);
+  border-top: 2px solid var(--color-heading);
+  padding: 0.75rem 0.5rem;
+  font-weight: 700;
+  color: var(--color-heading);
+}
+
+td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+/* Zebra striping for usability */
+tr:nth-child(even) {
+  background-color: var(--color-table-stripe);
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  display: block;
+  margin: 2rem auto;
+  page-break-inside: avoid;
+  border-radius: 4px;
+}
+
+figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+figcaption {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--color-caption);
+  font-family: var(--font-heading);
+  font-weight: 500;
+}
+
+/* Captions legacy support */
+img+br+em,
+p>em:only-child {
+  display: block;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-caption);
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+  font-style: normal;
+  font-family: var(--font-heading);
+}
+
+/* TOC */
+nav#TOC {
+  page-break-after: always;
+  margin-top: 2rem;
+}
+
+nav#TOC ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+nav#TOC ul li {
+  margin-bottom: 0.5rem;
+  border-bottom: 1px dotted var(--color-border);
+}
+
+nav#TOC a {
+  text-decoration: none;
+  color: var(--color-heading);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}

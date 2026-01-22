@@ -10,6 +10,13 @@ def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower()
             for text in re.split('([0-9]+)', s)]
 
+def extract_variant_number(filename):
+    # Matches "variant" followed by digits, e.g., "variant0.json", "variant12_singleton.json"
+    match = re.search(r'variant(\d+)', filename)
+    if match:
+        return int(match.group(1))
+    return None
+
 def plot_lines(ax, lines, title):
     x_lim = (-10, 10)
     y_lim = (-10, 10)
@@ -30,57 +37,66 @@ def plot_lines(ax, lines, title):
     ax.set_xticks([])
     ax.set_yticks([])
     
-    # Custom Title Clean
-    if "variant_soft_symmetry" in title: t = "Soft Sym (25)"
-    elif "variant0" in title: t = "Variant 0 (25)"
-    elif "symmetric_variant_18" in title: t = "Hard Sym (18)"
-    else: t = title.replace(".json","").replace("variant","v").replace("family","F").replace("singleton","S").replace("_"," ")
+    # Clean Title
+    # Extract just the number or simple name
+    num = extract_variant_number(title)
+    if num is not None:
+        if num == 0:
+            t = "Variant 0 (25)"
+        else:
+            t = f"Variant {num}"
+    else:
+        t = title
     
     ax.set_title(t, fontsize=6)
 
-def create_mosaic():
-    # Source: solutions_final/
-    files = glob.glob("solutions_final/*.json")
+def create_mosaic(source_dir, output_path, dpi_val):
+    search_pattern = os.path.join(source_dir, "*.json")
+    files = glob.glob(search_pattern)
     if not files:
-        print("No files found in solutions_final/")
+        print(f"No files found in {source_dir}")
         return
 
-    # Specific Order:
-    # 1. Soft Symmetry
-    # 2. Variant 0
-    # 3. Symmetric 18
-    # 4. Others (sorted naturally)
+    # Filter for Variant 0 to 71
+    selected_files = []
     
-    ordered_files = []
-    others = []
-    
-    specials = {
-        "variant_soft_symmetry.json": None,
-        "variant0.json": None,
-        "symmetric_variant_18triangles.json": None
-    }
+    # Map variant number to file path to ensure we get exactly 0-71
+    variant_map = {}
     
     for f in files:
         fname = os.path.basename(f)
-        if fname in specials:
-            specials[fname] = f
+        num = extract_variant_number(fname)
+        if num is not None and 0 <= num <= 71:
+            # Check if this file is the "primary" one for this number
+            # The list shows e.g. "variant1_singleton.json", "variant0.json"
+            # If duplicates exist (unlikely based on list), we take first found or warn.
+            # Based on file list, they seem unique per number.
+            variant_map[num] = f
+
+    # Create ordered list 0 to 71
+    ordered_files = []
+    missing = []
+    for i in range(72):
+        if i in variant_map:
+            ordered_files.append(variant_map[i])
         else:
-            others.append(f)
+            missing.append(i)
             
-    others.sort(key=lambda x: natural_sort_key(os.path.basename(x)))
-    
-    if specials["variant_soft_symmetry.json"]: ordered_files.append(specials["variant_soft_symmetry.json"])
-    if specials["variant0.json"]: ordered_files.append(specials["variant0.json"])
-    if specials["symmetric_variant_18triangles.json"]: ordered_files.append(specials["symmetric_variant_18triangles.json"])
-    
-    ordered_files.extend(others)
+    if missing:
+        print(f"Warning: Missing variants: {missing}")
     
     n_files = len(ordered_files)
-    print(f"Plotting {n_files} solutions...")
+    print(f"Plotting {n_files} solutions to {output_path}...")
     
+    if n_files == 0:
+        return
+
     cols = math.ceil(math.sqrt(n_files))
     rows = math.ceil(n_files / cols)
     
+    # Adjust figure size based on DPI to ensure lines aren't too thin/thick? 
+    # Or keep physical size constant. 
+    # The previous code used (cols * 2.5, rows * 2.5).
     fig, axes = plt.subplots(rows, cols, figsize=(cols * 2.5, rows * 2.5))
     axes_flat = axes.flatten()
     
@@ -89,16 +105,30 @@ def create_mosaic():
         try:
             with open(fpath, 'r') as f: data = json.load(f)
             plot_lines(ax, np.array(data['lines']), os.path.basename(fpath))
-        except:
+        except Exception as e:
+            print(f"Error plotting {fpath}: {e}")
             ax.text(0.5, 0.5, "Error", ha='center')
             
+    # Hide unused subplots
     for j in range(i + 1, len(axes_flat)):
         axes_flat[j].axis('off')
         
     plt.tight_layout()
-    plt.savefig('images/kobon_mosaic.jpg', dpi=1000, format='jpg')
-    print("Saved images/kobon_mosaic.jpg")
+    
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    
+    plt.savefig(output_path, dpi=dpi_val, format='jpg')
+    print(f"Saved {output_path} at {dpi_val} DPI")
     plt.close()
 
 if __name__ == "__main__":
-    create_mosaic()
+    # 1. High Res Version
+    # "crea un nuovo @[images/originals/kobon_mosaic.jpg] ... mi serve una versione con dpi = 500 da mettere in @[images/originals]"
+    create_mosaic("solutions", "images/originals/kobon_mosaic.jpg", 500)
+    
+    # 2. Light Version
+    # "e una leggera che andrà integrata nel pdf da inserire nel percorso @[images]"
+    # Assuming 'images/kobon_mosaic.jpg' is the target path for the one to be used in PDF/images dir
+    create_mosaic("solutions", "images/kobon_mosaic.jpg", 150)
+

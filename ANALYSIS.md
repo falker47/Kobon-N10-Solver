@@ -13,7 +13,7 @@ We executed **20 independent optimization runs** with randomly initialized param
 
 ### 2.2 Local Refinement & Diversity
 Using a "Basin Hopping" strategy (`refiner.py`), we applied over 2,000 Gaussian perturbations to our seed solutions.
-- **Result:** We identified **52 Geometrically Distinct Families**.
+- **Result:** We identified **11 distinct intersection graphs** among **72 optimal configurations**.
 - **Significance:** This proves the solution space is rich. There is not "one" solution, but a complex archipelago of valid configurations.
 
 ### 2.3 Topological Scanning ("The Breather")
